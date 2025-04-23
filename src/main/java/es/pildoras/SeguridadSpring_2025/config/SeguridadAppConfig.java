@@ -1,5 +1,8 @@
 package es.pildoras.SeguridadSpring_2025.config;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +16,13 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 @EnableWebSecurity
 public class SeguridadAppConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	private DataSource seguridadDataSource;//mirará el metodo inyectado
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
+		/*
 		UserBuilder usuarios=User.withDefaultPasswordEncoder();
 		
 		auth.inMemoryAuthentication()
@@ -23,6 +30,14 @@ public class SeguridadAppConfig extends WebSecurityConfigurerAdapter {
 		.withUser(usuarios.username("Peter").password("456").roles("usuario"))
 		.withUser(usuarios.username("Gabriela").password("789").roles("usuario","ayudante"))
 		.withUser(usuarios.username("Juaneco").password("666").roles("usuario","administrador"));
+		*/
+		
+		//inyectar el metodo public DataSource seguridadDataSource
+		//que es dodne obtenemos inf del pool de conexiones,user clave
+		
+		auth.jdbcAuthentication().dataSource(seguridadDataSource);
+		//mirará el metodo inyectado atraves del AUTOWIRED
+		
 	}
 
 	@Override
@@ -31,15 +46,19 @@ public class SeguridadAppConfig extends WebSecurityConfigurerAdapter {
 		
 		//http.authorizeRequests().anyRequest().authenticated().and().formLogin()
 		http.authorizeRequests()
-		.antMatchers("/").hasRole("usuario")
-		.antMatchers("/administradores/**").hasRole("administrador")
-		.antMatchers("/ayudantes/**").hasRole("ayudante")
+			.antMatchers("/").hasRole("USUARIO")
+			.antMatchers("/administradores/**").hasRole("ADMINISTRADOR")
+			.antMatchers("/ayudantes/**").hasRole("AYUDANTE")
 		.and().formLogin()
-		.loginPage("/miFormularioLogin")
-		.loginProcessingUrl("/autenticacionUsuario")
-		.permitAll()
-		.and().logout().permitAll()
-		.and().exceptionHandling().accessDeniedPage("/acceso-denegado");
+			.loginPage("/miFormularioLogin")
+			.loginProcessingUrl("/autenticacionUsuario")
+			.permitAll()
+		.and()
+			.logout()
+			.permitAll()
+		.and()
+			.exceptionHandling()
+			.accessDeniedPage("/acceso-denegado");
 		
 	}
 

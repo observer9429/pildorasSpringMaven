@@ -13,5 +13,7 @@
 <br/><br/>
 
 <a href="${pageContext.request.contextPath}/">Volver al inicio</a>
+
+<a href="${pageContext.request.contextPath}/loguear">Intentar loguearse otra vez</a>
 </body>
 </html>

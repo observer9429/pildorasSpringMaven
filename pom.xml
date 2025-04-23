@@ -112,6 +112,23 @@
 	</dependency>
 	
 	
+	<!-- SOPORTE PARA MYSQL-->
+	<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.30</version>
+	</dependency>
+	
+	
+	<!-- SOPORTE PARA poder construir el pool de conexiones-->
+	<dependency>
+  <groupId>com.mchange</groupId>
+  <artifactId>c3p0</artifactId>
+  <version>0.9.5.5</version>
+</dependency>
+	
+	
+	
     
   </dependencies>
 

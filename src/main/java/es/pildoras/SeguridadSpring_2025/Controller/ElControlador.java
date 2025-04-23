@@ -32,4 +32,11 @@ public class ElControlador {
 		
 		return "acceso-denegado";
 	}
+	
+	
+	@GetMapping("/loguear")
+	public String muestraLogueo() {
+		
+		return "login_nuevo";
+	}
 }
